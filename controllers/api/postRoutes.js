@@ -2,10 +2,60 @@ const router = require('express').Router();
 const { Post } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.post('/', withAuth, async (req, res) => {
+//Need to add back in the withAuth, ?
+
+// GET all posts
+router.get('/', async (req, res) => {
+    try {
+      const postData = await Post.findAll({
+        include: [
+          {
+              model: User,
+              attributes: ['username'],
+          },
+        ],
+    });
+  
+      const posts = postData.map((post) => post.get({ plain: true }));
+  
+      res.render('homepage', {
+        posts,
+        logged_in: req.session.logged_in
+      });
+      } catch (err) {
+        res.status(500).json(err);
+      }
+  });
+  
+  //GET post by ID
+  router.get('/post/:id', async (req, res) => {
+    try {
+      const postData = await Post.findByPk(req.params.id, {
+        include: [
+          {
+            model: User,
+            attributes: ['username'],
+          },
+        ],
+      });
+  
+      const post = postData.get({ plain: true });
+  
+      res.render('post', {
+        ...post,
+        logged_in: req.session.logged_in
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
+// Create new post
+router.post('/', async (req, res) => {
   try {
     const newPost = await Post.create({
-      ...req.body,
+      title: req.body.title,
+      content: req.body.content,
       user_id: req.session.user_id,
     });
 
@@ -15,7 +65,7 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const postData = await Post.destroy({
       where: {

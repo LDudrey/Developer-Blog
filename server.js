@@ -9,10 +9,11 @@ const helpers = require('./utils/helpers');
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
+// Localhost Port
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Set up Handlebars.js engine with custom helpers
+// Set up Handlebars.js engine with helpers
 const hbs = exphbs.create({ helpers });
 
 // Configure session object with Sequelize store

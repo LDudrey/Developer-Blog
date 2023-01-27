@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
-const withAuth = require('../utils/auth');
 
 // GET all posts
 router.get('/', async (req, res) => {
@@ -18,11 +17,52 @@ router.get('/', async (req, res) => {
 
     res.render('homepage', {
       posts,
-        logged_in: req.session.logged_in
     });
     } catch (err) {
-        res.status(500).json(err);
+      res.status(500).json(err);
     }
 });
+
+//GET post by ID
+router.get('/post/:id', async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        User,
+        {
+          model: Comment,
+          include: [User],
+        },
+      ],
+    });
+
+    const post = postData.get({ plain: true });
+
+    res.render('singlepost', {
+      post
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// Reroute to login if accesing dashboard
+router.get('/dashboard', (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect('/dashboard');
+    return;
+  }
+  res.render('login');
+});
+
+// Login route
+router.get('/login', (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect('/');
+    return;
+  }
+  res.render('login');
+});
+
 
 module.exports = router;
