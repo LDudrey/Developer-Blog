@@ -3,10 +3,7 @@ module.exports = {
       return date.toLocaleTimeString();
     },
     format_date: (date) => {
-    //     let dateString = Date(date).getMonth() + "/" +  Date(date).getDate() + "/" + Date(date).getFullYear();
-    //   return dateString();
-    // },
-    return `${new Date(date).getMonth() + 1}/${new Date(date).getDate()}/${
+    return `${new Date(date).getMonth()}/${new Date(date).getDate()}/${
       new Date(date).getFullYear()}`;
   },
   };
