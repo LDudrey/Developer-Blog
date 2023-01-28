@@ -47,13 +47,14 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
+// https://stackoverflow.com/questions/65823202/localhost-redirected-you-too-many-times-in-nodejs-and-express-session
 // Reroute to login if accesing dashboard
 router.get('/dashboard', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/dashboard');
+  if (!req.session.logged_in) {
+    res.redirect('/login');
     return;
   }
-  res.render('login');
+  res.render('dashboard');
 });
 
 // Login route
