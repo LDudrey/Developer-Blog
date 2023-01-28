@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 
+// API Routes when not logged in
 // GET all posts
 router.get('/', async (req, res) => {
   try {
@@ -58,7 +59,7 @@ router.get('/dashboard', (req, res) => {
 // Login route
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
-    res.redirect('/');
+    res.redirect('/dashboard');
     return;
   }
   res.render('login');
