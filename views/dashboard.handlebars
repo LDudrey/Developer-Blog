@@ -2,7 +2,7 @@
 
 {{#if logged_in}}
 <div>
-  <h1>Welcome {{username}}</h1>
+  <h1>Welcome {{name}}</h1>
 </div>
 {{/if}}
 
@@ -25,10 +25,9 @@
       </div>
     </form>
   </div>
-{{> postarray}}
+{{> postarray }}
 <div>
-  <button class="b-2 btn btn-primary position-absolute bottom-0 start-50 translate-middle-x">+ New Post</button>
+  <button class="b-2 btn btn-primary position-absolute bottom-0 start-50 translate-middle-x" id="new-post">+ New Post</button>
 </div>
 
-<script src="/js/dashboard.js"></script>
-<script src="/js/logout.js"></script>
+<script src="/js/newPost.js"></script>

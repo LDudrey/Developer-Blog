@@ -5,6 +5,7 @@
     <p class="card-text">
       {{post.content}}
     </p>
-    <p>Posted by {{post.username}} on {{format_date post.comment_date}}</p>
+    <p>Posted by {{post.name}} on {{format_date post.post_date}}</p>
   </div>
+{{> comment }}
 </div>

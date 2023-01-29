@@ -9,32 +9,34 @@ router.get('/', async (req, res) => {
     const postData = await Post.findAll({
       include: [
         {
-            model: User,
-            attributes: ['username'],
+          model: User,
+          attributes: ['name'],
         },
       ],
-  });
+    });
 
     const posts = postData.map((post) => post.get({ plain: true }));
 
     res.render('homepage', {
       posts,
     });
-    } catch (err) {
-      res.status(500).json(err);
-    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 //GET post by ID
 router.get('/post/:id', async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
-      include: [
-        User,
-        {
-          model: Comment,
-          include: [User],
+      include: [{
+        model: Comment,
+        attributes: ['id', 'comment_text', 'post_id', 'user_id',],
+        include: {
+          model: User,
+          attributes: ['name']
         },
+      },
       ],
     });
 
@@ -52,10 +54,9 @@ router.get('/post/:id', async (req, res) => {
 // Reroute to login if accesing dashboard
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
+      include: [{ model: Post, Comment }],
     });
 
     const user = userData.get({ plain: true });

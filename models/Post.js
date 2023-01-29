@@ -19,11 +19,11 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    username: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    comment_date: {
+    post_date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
