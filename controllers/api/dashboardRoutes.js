@@ -10,7 +10,26 @@ router.get('/', withAuth, async (req, res) => {
       {
         where: {
           user_id: req.session.user_id
-        }
+        },
+        attributes: [
+          'id',
+          'title',
+          'content',
+          'post_date'
+        ],
+        include: [{
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id'],
+          include: {
+            model: User,
+            attributes: ['name']
+          }
+        },
+        {
+          model: User,
+          attributes: ['name']
+        },
+        ]
       });
 
     const posts = postData.map((post) => post.get({ plain: true }));
