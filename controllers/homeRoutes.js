@@ -1,8 +1,8 @@
+// API Routes when not logged in
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-// API Routes when not logged in
 // GET all posts
 router.get('/', async (req, res) => {
   try {
@@ -50,7 +50,7 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
-// // https://stackoverflow.com/questions/65823202/localhost-redirected-you-too-many-times-in-nodejs-and-express-session
+// https://stackoverflow.com/questions/65823202/localhost-redirected-you-too-many-times-in-nodejs-and-express-session
 // Reroute to login if accesing dashboard
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
@@ -74,7 +74,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
 // Login route
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
-    res.redirect('/dashboard');
+    res.redirect('./dashboard');
     return;
   }
   res.render('login');
