@@ -1,5 +1,5 @@
 const sequelize = require('../config/connection');
-const { User, Post, Comment } = require('../models');
+const { User } = require('../models');
 
 // Seed files
 const seedComments = require('./commentData');

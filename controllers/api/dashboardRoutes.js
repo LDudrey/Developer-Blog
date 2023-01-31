@@ -4,8 +4,7 @@ const { User, Post, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // GET all posts
-router.get('/dashboard', withAuth, async (req, res) => {
-  console.log(req.session.user_id)
+router.get('/', withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll(
       {
@@ -38,27 +37,6 @@ router.get('/dashboard', withAuth, async (req, res) => {
     res.render('dashboard', {
       posts,
     });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// DELETE Post
-router.delete('/post/:id', withAuth, async (req, res) => {
-  try {
-    const postData = await Post.destroy({
-      where: {
-        id: req.params.id,
-        user_id: req.session.user_id,
-      },
-    });
-
-    if (!postData) {
-      res.status(404).json({ message: 'This post no longer exists!' });
-      return;
-    }
-
-    res.status(200).json(postData);
   } catch (err) {
     res.status(500).json(err);
   }

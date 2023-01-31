@@ -28,6 +28,8 @@
    
   ## Usage
   
+  https://lad-developerblog.herokuapp.com/
+
   This application is deployed to Heroku to view the functionality without installation. Otherwise after following the above installation steps the following commands will seed and start your local server. 
 
   Start MySQL database using the following commands:
